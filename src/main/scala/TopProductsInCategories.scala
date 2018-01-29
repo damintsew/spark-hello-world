@@ -18,7 +18,7 @@ object TopProductsInCategories {
   def main(args: Array[String]) {
 
     // initialise spark context
-    val conf = new SparkConf().setAppName("HelloWorld")
+    val conf = new SparkConf().setAppName("TopProductsInCategories")
     val sc = new SparkContext(conf)
 
     sc.hadoopConfiguration.set("mapreduce.input.fileinputformat.input.dir.recursive", "true")
