@@ -9,7 +9,7 @@ import java.sql.{Connection, DriverManager, ResultSet}
 import java.util.Properties
 
 // define main method (Spark entry point)
-object TopCategories extends Common {
+object TopCategoriesDF extends Common {
 
   val url = "jdbc:mysql://127.0.0.1:3306/adamintsev"
 
@@ -22,18 +22,11 @@ object TopCategories extends Common {
 
   def main(args: Array[String]) {
 
-    // initialise spark context
-    //    val spark = SparkSession
-    //      .builder()
-    //      .appName("Spark SQL basic example")
-    //      .config("mapreduce.input.fileinputformat.input.dir.recursive", "true")
-    //      .getOrCreate()
-
     val conf = new SparkConf().setAppName("TopCategoriesDF")
     val sc = new SparkContext(conf)
-    val spark = new org.apache.spark.sql.SQLContext(sc)
+    val sqlContext = new org.apache.spark.sql.SQLContext(sc)
 
-    import spark.implicits._
+    import sqlContext.implicits._
     sc.hadoopConfiguration.set("mapreduce.input.fileinputformat.input.dir.recursive", "true")
 
     // do stuff
@@ -41,18 +34,19 @@ object TopCategories extends Common {
     println("Initializing application!")
     println("************")
 
-    val saleDF = spark.sparkContext.textFile("/user/adamintsev/events/*")
+    val saleDF = sc.textFile("/user/adamintsev/events/*")
       .map(_.split(";"))
       .map(v => (toLong(v(0)), v(1), v(2), toDouble(v(3)), v(4), v(5)))
-      .filter(v => v._1.isDefined && v._4.isDefined)
-      .map(v => Sale(v._1.get, v._2, v._3, v._4.get, v._5, v._6))
+      .filter(v =>  v._1 != -1 && v._4 != -1)
+      .map(v => Sale(v._1, v._2, v._3, v._4, v._5, v._6))
       .toDF()
 
-    val topProducts = saleDF.groupBy("category") //.count()
+    val topProducts = saleDF.groupBy("category")
       .agg(count("*").alias("quantity"))
-      .orderBy(desc("total"))
+      .orderBy(desc("quantity"))
       .limit(10)
 
+    topProducts.show()
     topProducts.write.mode("append")
       .jdbc(url, "top_purchased_categories", prop)
 

@@ -11,13 +11,13 @@ object TopPurchaseInCountries {
   val username = "root"
   val password = "cloudera"
 
-  def toDouble(s: String): Option[Double] = {
-    try {
-      Some(s.toDouble)
-    } catch {
-      case e: Exception => None
-    }
-  }
+//  def toDouble(s: String): Option[Double] = {
+//    try {
+//      Some(s.toDouble)
+//    } catch {
+//      case e: Exception => None
+//    }
+//  }
 
   def main(args: Array[String]) {
 
@@ -34,9 +34,10 @@ object TopPurchaseInCountries {
 
     val topCategoriesWithCount = sc.textFile("/user/adamintsev/events/*")
       .map(_.split(";"))
-      .map(v => (v(5), toDouble(v(3))))
-      .filter(v => v._2.isDefined)
-      .map(v => (v._1, v._2.get))
+//      .map(v => (v(5), toDouble(v(3))))
+      .map(v => (v(5), v(3).toDouble))
+//      .filter(v => v._2.isDefined)
+//      .map(v => (v._1, v._2.get))
       .aggregateByKey(0.0)((accum, v) => accum + v, _ + _)
 
     val ip_geocode = sc.textFile("/user/adamintsev/geo/ip")

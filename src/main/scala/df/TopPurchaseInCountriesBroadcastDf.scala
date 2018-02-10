@@ -1,18 +1,12 @@
 package df
 
-
-import java.sql.DriverManager
-import java.util.Properties
-
-import df.TopProductsInCategories.{Sale, toDouble, toLong}
-import org.apache.spark.{SparkConf, SparkContext}
+import df.TopProductsInCategories.{toDouble, toLong}
 import org.apache.spark.sql.functions._
-
-
+import org.apache.spark.{SparkConf, SparkContext}
 
 
 // define main method (Spark entry point)
-object TopPurchaseInCountriesDf {
+object TopPurchaseInCountriesBroadcastDf {
 
   val url = "jdbc:mysql://127.0.0.1:3306/adamintsev"
 
@@ -46,21 +40,11 @@ object TopPurchaseInCountriesDf {
       .map(v => Sale(v._1, v._2, v._3, v._4, v._5, v._6))
       .toDF()
 
-    val saleGroupedByIpDF = saleDF.groupBy("ipaddr")
-      .agg(sum("price").alias("price"))
-
     val ip_geocodeDF = sc.textFile("/user/adamintsev/geo/ip")
       .mapPartitionsWithIndex { (idx, iter) => if (idx == 0) iter.drop(1) else iter }
       .map(_.split(","))
       .map(v => Geocode(v(0), v(1)))
       .toDF()
-
-    val joinedWithGeocode = saleGroupedByIpDF
-      .join(ip_geocodeDF, "ipaddr")
-      .groupBy("geocodeId")
-      .agg(sum("price").alias("price"))
-      .select("geocodeId", "price")
-
 
     val countriesDF = sc.textFile("/user/adamintsev/geo/country")
       .mapPartitionsWithIndex { (idx, iter) => if (idx == 0) iter.drop(1) else iter }
@@ -68,8 +52,12 @@ object TopPurchaseInCountriesDf {
       .map(v => Country(v(0), v(5)))
       .toDF()
 
-    val topCountries = joinedWithGeocode
+    val countryGeocode = ip_geocodeDF
       .join(countriesDF, "geocodeId")
+
+
+    val topCountries = saleDF
+      .join(broadcast(countryGeocode), saleDF.col("ipaddr") === countryGeocode.col("ipaddr"))
       .groupBy(column("countryName").as("country"))
       .agg(sum("price").alias("sales"))
       .orderBy(desc("sales"))
