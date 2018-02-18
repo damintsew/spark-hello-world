@@ -75,7 +75,8 @@ object TopPurchaseInCountries {
         (country, sale._1)
       })
       .reduceByKey(_ + _)
-      .takeOrdered(10)
+      .takeOrdered(10)(Ordering[Double].reverse.on(x=>x._2))
+
 
     topCountries.foreach(println)
 
