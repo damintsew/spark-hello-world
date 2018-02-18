@@ -20,8 +20,12 @@ object GeoInfoHandler {
 
     def getGeoId(ip: String): String = {
       val parsed: Long = ip2Long(ip)
-      val entry: util.Map.Entry[Long, Pair] = map.floorEntry(parsed)
-      if (entry != null && parsed <= entry.getValue.end) new String(entry.getValue.geoId)
+      getGeoId(parsed)
+    }
+
+    def getGeoId(ip: Long): String = {
+      val entry: util.Map.Entry[Long, Pair] = map.floorEntry(ip)
+      if (entry != null && ip <= entry.getValue.end) new String(entry.getValue.geoId)
       else null
     }
   }
