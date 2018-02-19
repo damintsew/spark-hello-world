@@ -3,7 +3,7 @@ package udf
 import java.util
 import java.util.TreeMap
 
-import udf.Common.ip2Long
+import common.Common.ip2Long
 
 object GeoInfoHandler extends Serializable {
 

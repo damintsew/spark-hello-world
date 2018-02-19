@@ -1,11 +1,12 @@
 package df
 
-import df.TopProductsInCategories.{toDouble, toLong}
+import common.Common.{toDouble,toLong}
 import org.apache.spark.sql.functions._
 import org.apache.spark.{SparkConf, SparkContext}
 
 
 // define main method (Spark entry point)
+@Deprecated
 object TopPurchaseInCountriesBroadcastDf {
 
   val url = "jdbc:mysql://127.0.0.1:3306/adamintsev"

@@ -1,6 +1,6 @@
-package df
+package common
 
-class Common {
+object Common {
 
   def toLong(s: String): Long = {
     try {

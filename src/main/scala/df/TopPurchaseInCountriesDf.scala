@@ -4,14 +4,14 @@ package df
 import java.sql.DriverManager
 import java.util.Properties
 
-import df.TopProductsInCategories.{ip2Long, toDouble, toLong}
-import org.apache.commons.net.util.SubnetUtils
+import common.Common.{ip2Long, toDouble, toLong}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.functions._
 import org.apache.commons.net.util.SubnetUtils
 import _root_.udf.GeoInfoHandler.GeoInfoHandler
+import org.apache.spark.sql.api.java.UDF1
+import org.apache.spark.sql.types.DataTypes
 
-import scala.collection.immutable.TreeMap
 
 
 // define main method (Spark entry point)
@@ -24,11 +24,6 @@ object TopPurchaseInCountriesDf {
   prop.put("password", "cloudera")
 
   case class Sale(id: Long, category: String, name: String, price: Double, date: String, ipaddr: Long)
-  case class Geocode(ipaddr: String, geocodeId: String)
-  case class Country(geocodeId: String, countryName: String)
-
-  import org.apache.spark.sql.api.java.UDF1
-
 
 
   def main(args: Array[String]) {
@@ -80,7 +75,6 @@ object TopPurchaseInCountriesDf {
       override def call(ipAddrLong: Long): String = geocodeStruct.getGeoId(ipAddrLong)
     }
 
-    import org.apache.spark.sql.types.DataTypes
     spark.udf.register("extractGeoname", extractGeonameUdf, DataTypes.StringType)
 
     val saleDF = sc.textFile("/user/adamintsev/events/*")
@@ -98,7 +92,6 @@ object TopPurchaseInCountriesDf {
 
 
     topCountries.show()
-
 
     println("************")
 

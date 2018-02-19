@@ -2,7 +2,7 @@
 import java.sql.DriverManager
 import java.util
 
-import df.TopProductsInCategories.{ip2Long, toDouble, toLong}
+import common.Common.{ip2Long, toDouble, toLong}
 import org.apache.commons.net.util.SubnetUtils
 import org.apache.spark.{SparkConf, SparkContext}
 

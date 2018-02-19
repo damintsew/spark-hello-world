@@ -1,6 +1,7 @@
 package df
 
 // import required spark classes
+import common.Common.{toDouble,toLong}
 import org.apache.spark.{SparkConf, SparkContext}
 //import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql._
@@ -9,7 +10,7 @@ import java.sql.{Connection, DriverManager, ResultSet}
 import java.util.Properties
 
 // define main method (Spark entry point)
-object TopCategoriesDF extends Common {
+object TopCategoriesDF {
 
   val url = "jdbc:mysql://127.0.0.1:3306/adamintsev"
 

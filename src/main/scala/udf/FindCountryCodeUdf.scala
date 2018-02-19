@@ -6,11 +6,12 @@ import java.util.List
 
 import com.google.common.base.{Charsets, Throwables}
 import com.google.common.io.Resources
+import common.Common
 import org.apache.commons.net.util.SubnetUtils
 import org.apache.hadoop.hive.ql.exec.UDF
 import org.apache.hadoop.hive.ql.udf.UDFType
 import udf.GeoInfoHandler.GeoInfoHandler
-import udf.Common.{ip2Long}
+
 
 @UDFType(deterministic = false, stateful = true)
 class FindCountryCodeUdf extends UDF {
@@ -45,8 +46,8 @@ class FindCountryCodeUdf extends UDF {
         val parts = line.split(",")
         if (parts.length >= 6) {
           val utils = new SubnetUtils(parts(0).trim)
-          val begin = ip2Long(utils.getInfo.getLowAddress)
-          val end = ip2Long(utils.getInfo.getHighAddress)
+          val begin = Common.ip2Long(utils.getInfo.getLowAddress)
+          val end = Common.ip2Long(utils.getInfo.getHighAddress)
 
           map.addNetwork(begin, end, parts(1).trim)
         }
