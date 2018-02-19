@@ -5,13 +5,13 @@ import java.util.TreeMap
 
 import udf.Common.ip2Long
 
-object GeoInfoHandler {
+object GeoInfoHandler extends Serializable {
 
-  private class Pair (val end: Long, val geoId: String) {
+  private class Pair (val end: Long, val geoId: String) extends Serializable {
 
   }
 
-  class GeoInfoHandler {
+  class GeoInfoHandler extends Serializable {
     final private val map: util.TreeMap[Long, Pair] = new util.TreeMap[Long, Pair]
 
     def addNetwork(startIp: Long, endIp: Long, geoId: String): Unit = {

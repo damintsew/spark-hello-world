@@ -6,6 +6,10 @@ import df.TopProductsInCategories.{ip2Long, toDouble, toLong}
 import org.apache.commons.net.util.SubnetUtils
 import org.apache.spark.{SparkConf, SparkContext}
 
+/**
+  *  @see TopPurchaseInCountriesV2
+  */
+@Deprecated
 object TopPurchaseInCountries {
 
   val url = "jdbc:mysql://127.0.0.1:3306/adamintsev"
