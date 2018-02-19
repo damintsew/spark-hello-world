@@ -1,15 +1,12 @@
 package df
 
-// import required spark classes
 import common.Common.{toDouble,toLong}
 import org.apache.spark.{SparkConf, SparkContext}
-//import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql._
 import org.apache.spark.sql.functions._
 import java.sql.{Connection, DriverManager, ResultSet}
 import java.util.Properties
 
-// define main method (Spark entry point)
 object TopCategoriesDF {
 
   val url = "jdbc:mysql://127.0.0.1:3306/adamintsev"
@@ -19,7 +16,6 @@ object TopCategoriesDF {
   prop.put("password", "cloudera")
 
   case class Sale(id: Long, category: String, name: String, price: Double, date: String, ipaddr: String)
-
 
   def main(args: Array[String]) {
 
@@ -52,7 +48,6 @@ object TopCategoriesDF {
       .jdbc(url, "top_purchased_categories", prop)
 
     println("************")
-
   }
 }
 

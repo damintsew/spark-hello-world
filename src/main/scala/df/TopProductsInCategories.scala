@@ -1,6 +1,5 @@
 package df
 
-// import required spark classes
 import common.Common.{toDouble,toLong}
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.hive.HiveContext
@@ -10,8 +9,6 @@ import java.util.Properties
 
 import org.apache.spark.sql.functions._
 
-
-// define main method (Spark entry point)
 object TopProductsInCategories {
 
   val url = "jdbc:mysql://127.0.0.1:3306/adamintsev"
@@ -59,7 +56,6 @@ object TopProductsInCategories {
       .jdbc(url, "top_products_for_categories", prop)
 
     println("************")
-
   }
 }
 

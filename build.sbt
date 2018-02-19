@@ -1,6 +1,6 @@
 name := "BigDataUniversity"
  
-version := "1.4.0"
+version := "2.0.0"
 
 val sparkVersion = "1.6.0"
  

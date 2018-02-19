@@ -1,11 +1,9 @@
-// import required spark classes
-import org.apache.spark.SparkContext
-import org.apache.spark.SparkContext._
-import org.apache.spark.SparkConf
-import org.apache.spark.rdd.JdbcRDD
-import java.sql.{Connection, DriverManager, ResultSet}
+package rdd
 
-// define main method (Spark entry point)
+import java.sql.DriverManager
+
+import org.apache.spark.{SparkConf, SparkContext}
+
 object TopCategories {
 
   val url = "jdbc:mysql://127.0.0.1:3306/adamintsev"

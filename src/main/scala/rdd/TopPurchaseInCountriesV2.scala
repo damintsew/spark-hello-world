@@ -1,7 +1,8 @@
-package udf
+package rdd
 
-import udf.GeoInfoHandler.GeoInfoHandler
+
 import common.Common.{ip2Long, toDouble, toLong}
+import common.GeoInfoHandler.GeoInfoHandler
 import org.apache.commons.net.util.SubnetUtils
 import org.apache.spark.{SparkConf, SparkContext}
 
@@ -91,7 +92,6 @@ object TopPurchaseInCountriesV2 {
 //
 //    conn.close()
 
-    // terminate
     sc.stop()
   }
 }

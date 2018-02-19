@@ -1,19 +1,15 @@
+package rdd
 
-import org.apache.spark.SparkContext
-import org.apache.spark.SparkContext._
-import org.apache.spark.SparkConf
-import org.apache.spark.rdd.JdbcRDD
-import java.sql.{Connection, DriverManager, ResultSet}
-import org.apache.spark.rdd.PairRDDFunctions
+import java.sql.DriverManager
+
+import org.apache.spark.{SparkConf, SparkContext}
 
 
-// define main method (Spark entry point)
 object TopProductsInCategories {
 
   val url = "jdbc:mysql://127.0.0.1:3306/adamintsev"
   val username = "root"
   val password = "cloudera"
-
 
   def main(args: Array[String]) {
 
@@ -40,6 +36,8 @@ object TopProductsInCategories {
 
     println("************")
 
+    topCategoriesWithCount.foreach(println)
+
     topCategoriesWithCount.foreachPartition(partition => {
       val conn = DriverManager.getConnection(url, username, password)
 
@@ -57,12 +55,7 @@ object TopProductsInCategories {
       conn.close()
     })
 
-
-
-    // terminate
-
     sc.stop()
-
   }
 }
 

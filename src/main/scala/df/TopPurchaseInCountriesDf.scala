@@ -1,6 +1,5 @@
 package df
 
-
 import java.sql.DriverManager
 import java.util.Properties
 
@@ -8,13 +7,10 @@ import common.Common.{ip2Long, toDouble, toLong}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.functions._
 import org.apache.commons.net.util.SubnetUtils
-import _root_.udf.GeoInfoHandler.GeoInfoHandler
+import common.GeoInfoHandler.GeoInfoHandler
 import org.apache.spark.sql.api.java.UDF1
 import org.apache.spark.sql.types.DataTypes
 
-
-
-// define main method (Spark entry point)
 object TopPurchaseInCountriesDf {
 
   val url = "jdbc:mysql://127.0.0.1:3306/adamintsev"
@@ -98,7 +94,6 @@ object TopPurchaseInCountriesDf {
 //    topCountries.write.mode("append")
 //      .jdbc(url, "top_sales_by_country", prop)
 
-    // terminate
     sc.stop()
   }
 }

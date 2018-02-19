@@ -10,7 +10,7 @@ import common.Common
 import org.apache.commons.net.util.SubnetUtils
 import org.apache.hadoop.hive.ql.exec.UDF
 import org.apache.hadoop.hive.ql.udf.UDFType
-import udf.GeoInfoHandler.GeoInfoHandler
+import common.GeoInfoHandler.GeoInfoHandler
 
 
 @UDFType(deterministic = false, stateful = true)

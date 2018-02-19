@@ -5,7 +5,6 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.{SparkConf, SparkContext}
 
 
-// define main method (Spark entry point)
 @Deprecated
 object TopPurchaseInCountriesBroadcastDf {
 

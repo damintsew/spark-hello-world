@@ -1,7 +1,6 @@
-package udf
+package common
 
 import java.util
-import java.util.TreeMap
 
 import common.Common.ip2Long
 
